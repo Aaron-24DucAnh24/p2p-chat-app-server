@@ -6,6 +6,7 @@ var users = [
     {name: 'Aaron', password: 'aaron'},
     {name: 'Duy', password: "duy"},
     {name: 'Bao', password: "bao"},
+    {name: 'Hung', password: "tram <3"},
 ]
 
 function isUser(loginData) {
