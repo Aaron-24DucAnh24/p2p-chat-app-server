@@ -7,13 +7,24 @@ var users = [
     {name: 'Hung',  password: 'hung',   ip: ''},
 ]
 
-function isUser(loginData, clientIp) {
+function isUser(loginData) {
     for(var user of users)
         if(loginData.name == user.name && loginData.password == user.password){
-            user.id = clientIp
             return true
         }
     return false
+}
+
+function setIP(name, ip) {
+    for(var user of users)
+        if(name == user.name)
+            user.ip = ip
+}
+
+function deleteIP(name) {
+    for(var user of users)
+        if(name == user.name)
+            user.ip = ''
 }
 
 function handleRequest(app) {
@@ -27,7 +38,8 @@ function handleRequest(app) {
         console.log(loginData)
         console.log(clientIp)
 
-        if(isUser(loginData, clientIp)) {
+        if(isUser(loginData)) {
+            setIP(loginData.name, clientIp)
             res.json(loginData.name)
             console.log('Success!!!')
         }
@@ -46,8 +58,9 @@ function handleRequest(app) {
         console.log(regData)
         console.log(clientIp)
 
-        if(!isUser(regData, clientIp)) {
+        if(!isUser(regData)) {
             users.push(regData)
+            setIP(regData.name, clientIp)
             console.log('Success!!!')
             res.json(regData.name)
         }
@@ -60,24 +73,23 @@ function handleRequest(app) {
     /// handle logout ///
     app.post('/logout', (req, res) => {
         var userName = req.body.name
-        for(var user of users) {
-            if(user.name == userName) {
-                user.ip = ''
-            }
-        }
+        deleteIP(userName)
         res.json(1)
         console.log(userName + ' logged out the system!!!')
     })
 
     /// advertise client address to each other ///
-    app.get('/ip', (req, res) => {
+    app.get('/:name', (req, res) => {
+
+        requestUser = req.params.name
+        
         var result = []
         for(var user of users) {
-            if(user.ip) {
+            if(user.ip && user.name != requestUser) {
                 result.push({name: user.name, ip: user.ip})
             }
         }
-        if(result.length > 1){
+        if(result.length != 0){
             res.json(result)
             console.log('Send ip addresses to a client')
             console.log(result)
