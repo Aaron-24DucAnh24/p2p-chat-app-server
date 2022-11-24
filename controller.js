@@ -1,6 +1,4 @@
 
-const path = require('path')
-
 /// init users ///
 var users = [
     {name: 'Aaron', password: 'aaron',  ip: ''},
@@ -71,9 +69,22 @@ function handleRequest(app) {
         console.log(userName + ' logged out the system!!!')
     })
 
-    app.get('/test', (req, res) => {
-        console.log(req.ip)
-        res.send('BUI NGOC DUC ANH => TEST GETTING IP ADDRESS FUNCTION ')
+    /// advertise client address to each other ///
+    app.get('/ip', (req, res) => {
+        var result = []
+        for(var user of users) {
+            if(user.ip) {
+                result.push({name: user.name, ip: user.ip})
+            }
+        }
+        if(result.length > 1){
+            res.json(result)
+            console.log('Send ip addresses to a client')
+            console.log(result)
+        } else {
+            res.json(0)
+            console.log('No other clients are online')
+        }
     })
 }
 
