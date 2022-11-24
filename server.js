@@ -11,6 +11,7 @@ const port   = process.env.PORT || 3000;
 /// app config ///
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+app.set('trust proxy', true) // for getting direct ip address of clients
 
 /// handle request ///
 const controller = require('./controller')
