@@ -32,7 +32,7 @@ function handleRequest(app) {
     /// handle login ///
     app.post('/login', function(req, res) {
         var loginData = req.body
-        var clientIp  = req.ip
+        var clientIp  = req.body.ip
 
         console.log('A new login request: ')
         console.log(loginData)
@@ -52,7 +52,7 @@ function handleRequest(app) {
     /// handle register ///
     app.post('/register', function(req, res) {
         var regData = req.body
-        var clientIp = req.ip
+        var clientIp = req.body.ip
 
         console.log('A new register request: ')
         console.log(regData)
