@@ -36,7 +36,6 @@ function handleRequest(app) {
 
         console.log('A new login request: ')
         console.log(loginData)
-        console.log(clientIp)
 
         if(isUser(loginData)) {
             setIP(loginData.name, clientIp)
@@ -56,7 +55,6 @@ function handleRequest(app) {
 
         console.log('A new register request: ')
         console.log(regData)
-        console.log(clientIp)
 
         if(!isUser(regData)) {
             users.push(regData)
@@ -84,19 +82,13 @@ function handleRequest(app) {
         requestUser = req.params.name
         
         var result = []
-        for(var user of users) {
-            if(user.ip && user.name != requestUser) {
+        for(var user of users) 
+            if(user.ip && user.name != requestUser)
                 result.push({name: user.name, ip: user.ip})
-            }
-        }
-        if(result.length != 0){
+
+        if(result.length != 0)
             res.json(result)
-            console.log('Send ip addresses to a client')
-            console.log(result)
-        } else {
-            res.json(0)
-            console.log('No other clients are online')
-        }
+        else res.json(0)
     })
 }
 
