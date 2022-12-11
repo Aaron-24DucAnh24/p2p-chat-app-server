@@ -83,7 +83,7 @@ function handleRequest(app) {
         
         var result = []
         for(var user of users) 
-            if(user.ip && user.name != requestUser)
+            if(user.name != requestUser)
                 result.push({name: user.name, ip: user.ip})
 
         if(result.length != 0)
