@@ -1,5 +1,5 @@
 
-const Users = require('./user')
+const Users = require('../users')
 
 function handleRequest(app) {
 
